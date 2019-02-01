@@ -37,7 +37,7 @@ public class NetOutput extends Subsystem {
  	}
 
 	public void chooser(NetworkTable table, int choice){		
-		choice_entry = table.getEntry("choice");
+		NetworkTableEntry choice_entry = table.getEntry("choice");
 		choice_entry.setInt(choice);
 	}
 
