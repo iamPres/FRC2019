@@ -19,7 +19,7 @@ public class autonomous extends CommandGroup {
 	
  public autonomous(int choice) {
 	// Initialize Subsystem Object
-	obj = NetOutput(choice);
+	obj = Robot.NetOutput(choice);
  }
 
  protected void initialize() {
@@ -28,54 +28,31 @@ public class autonomous extends CommandGroup {
 
  public execute(){
 	// Store networktables output
+	double[] output = new double[3];
 	output = obj.get_output_of_selected_action();
 
 	// PID
-	double[] speeds = PID(output);
-		Robot.driveTrain.tankDrive(speeds[0], speeds[1]); //Turns each motor according to the error. 
+	double[] speeds = PID(output[1]);
+	Robot.driveTrain.tankDrive(speeds[0], speeds[1]); //Turns each motor according to the error. 
  }
 
 protected double[] PID(double output) {
+	int setpoint = 0;
 	double[] returnVals = new double[2];
 	reading = output; //Gets angle form Gyro
 	error = reading - setpoint; //Calculates error based on the predefined reference point
 	newVal = P*error; //Multiplies the error by a constant
 
-	// ie the gyro is reading a value less then 180 degrees, meaning the robot needs to be adjusted to the right
-	// note that only a value of ~0.5 for speed should be fed in for best results, unless newVal is miniscule
-	if (newVal > 0.0) {
-		if (!((newVal + speed) > 1.0)) {
-			// left drive needs to be more powerful
-			returnVals[0] = newVal + speed;
-			returnVals[1] = -1.0 * (speed - newVal);
-			return returnVals;
-		}
-		// the weird case in which the gyro is reading a value so abnormal that either something is wrong or serious corrections need to be made
-		// for now drive equal power to both motors
-		else {
-			returnVals[0] = speed;
-			returnVals[1] = -1.0 * speed;
-			return returnVals;
-		}
+	if (error < 0){
+		returnVals[0] = -0.5;
+		returnVals[1] = 0.5;
 	}
-	// ie the gyro is reading a value greater then 180 degrees, meaning the robot needs to be adjusted to the left
 	else {
-		newVal = Math.abs(newVal);
-		if (!((newVal + speed) > 1.0)) {
-			// right drive needs to be more powerful
-			returnVals[0] = speed - newVal;
-			returnVals[1] = -1.0 * (speed + newVal);
-			return returnVals;
-		}
-		// the weird case in which the gyro is reading a value so abnormal that either something is wrong or serious corrections need to be made
-		// for now drive equal power to both motors
-		else {
-			returnVals[0] = speed;
-			returnVals[1] = -1.0 * speed;
-			return returnVals;
-		}
+		returnVals[0] = 0.5;
+		returnVals[1] = -0.5;
 	}
 
+	return returnVals;
 }
 
 // Make this return true when this Command no longer needs to run execute()
