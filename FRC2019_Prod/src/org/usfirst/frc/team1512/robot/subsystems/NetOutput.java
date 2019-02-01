@@ -11,36 +11,38 @@ public class NetOutput extends Subsystem {
 	NetOutput(int user_input){
 		// Initialize network tables 
 		NetworkTableInstance net = NetworkTableInstance.getDefault();
+		NetworkTable chooser_table = net.getTable("chooser_data");
 		NetworkTable ball_table = net.getTable("ball_data");
 		NetworkTable tape_table = net.getTable("tape_data");
 
 		input = user_input;
 
 		// Kill all processes and start selected script
-		chooser(input);
+		chooser(chooser_table, input);
 		// Wait for startup 
 		Thread.sleep(500);
 	}
 	
  	public double get_output_of_selected_action() {
-		if (input == 0) {
-			// Return network table value
-			return get_data(ball_table);
-		}
+		//Value 0 stops all scripts
 
-		if (input == 1) {	
+		if (input == 1) {
 			// Return network table value
 			return get_data(tape_table);
 		}
+		else if (input == 2) {	
+			// Return network table value
+			return get_data(ball_table);
+		}
  	}
 
-	public void chooser(int choice){		
-		// Prototype
-		net.putInt(choice);
+	public void chooser(NetworkTable table, int choice){		
+		NetworkTableEntry choice_entry = table.getEntry("choice");
+		choice_entry.setInt(choice);
 	}
 
 	public double get_data(NetworkTable table){
-		// Prototype
-		return net.getDouble(table);
+
+		return table.getEntry("midpoint").getValue();
 	}
  }
