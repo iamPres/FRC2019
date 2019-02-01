@@ -37,12 +37,12 @@ public class NetOutput extends Subsystem {
  	}
 
 	public void chooser(NetworkTable table, int choice){		
-
-		table.putNumber("Choice", choice);
+		choice_entry = table.getEntry("choice");
+		choice_entry.setInt(choice);
 	}
 
 	public double get_data(NetworkTable table){
 
-		return table.getNumber("midpoint", 0.0); //0.0 is default 
+		return table.getEntry("midpoint").getValue();
 	}
  }
