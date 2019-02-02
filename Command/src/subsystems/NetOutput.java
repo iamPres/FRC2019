@@ -16,10 +16,7 @@ public class NetOutput extends Subsystem {
 		NetworkTable tape_table = net.getTable("tape_data");
 
 		input = user_input;
-
-		// Kill all processes and start selected script
-		chooser(chooser_table, input);
-		// Wait for startup 
+		chooser(input);
 		Thread.sleep(500);
 	}
 	
@@ -36,13 +33,12 @@ public class NetOutput extends Subsystem {
 		}
  	}
 
-	public void chooser(NetworkTable table, int choice){		
-		NetworkTableEntry choice_entry = table.getEntry("choice");
-		choice_entry.setInt(choice);
+	public void chooser(int choice){		
+		NetworkTableEntry choice_entry = chooser_table.getEntry("choice");
+		choice_entry.setDouble((double)choice);
 	}
 
 	public double get_data(NetworkTable table){
-
 		return table.getEntry("midpoint").getValue();
 	}
  }

@@ -31,15 +31,12 @@ import edu.wpi.first.networktables.NetworkTableValue;
  * project.
  */
 public class Robot extends TimedRobot {
+	
 	public static DriveTrain driveTrain;
 	public static Elevator elevator;
 	public static Grabber grabber;
 	public static OI m_oi;
-	NetworkTableValue turn;
-	NetworkTableInstance inst = NetworkTableInstance.getDefault();
-	NetworkTable table = inst.getTable("datatable");
-	double degree = 0;
-	
+
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -52,17 +49,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		
-		
 		CameraServer.getInstance().startAutomaticCapture();
+
 		driveTrain = new DriveTrain();
 		elevator = new Elevator();
 		grabber = new Grabber();
 		m_oi = new OI();
-		RobotMap.compressor.setClosedLoopControl(true);
-		RobotMap.Gyro1.calibrate();
-		m_chooser.addDefault("Default autonomous", new autonomous(0));
-		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -72,7 +64,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
@@ -80,62 +71,22 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
-		
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
-		}
 	}
 
 	/**
-	 * This function is called periodically during autonomous.
+	 * This function is called at the start of autonomous.
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		while(turn == null) {
-			turn = table.getEntry("turn").getValue();
-			System.out.println("DATA NOT FOUND");
-		}
-		turn = table.getEntry("turn").getValue();
-		degree = turn.getDouble();
-		System.out.println("OUTPUT == "+degree);
-		Robot.driveTrain.tankDrive(degree/5,degree/5);
-		//Scheduler.getInstance().run();
 	}
 
+	/**
+	 * This function is called at the start of operator control.
+	 */
 	@Override
 	public void teleopInit() {
-		SmartDashboard.putBoolean("Limit Switch 1", RobotMap.limitSwitch1.get());
-		SmartDashboard.putBoolean("Limit Switch 2", RobotMap.limitSwitch2.get());
-		SmartDashboard.putNumber("Gyro1 angle:", RobotMap.Gyro1.getAngle());
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
-		}
 	}
 
 	/**
@@ -143,6 +94,15 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		if (m_oi.xbox.getBButtonPressed() == true) {
+			Scheduler.getInstance().add(new autonomous(0));
+		}
+		if (m_oi.xbox.getXButtonPressed() == true) {
+			Scheduler.getInstance().add(new autonomous(1));
+		}
+		if (m_oi.xbox.getBButtonPressed() == true) {
+			Scheduler.getInstance().add(new autonomous(2));
+		}
 		Scheduler.getInstance().run();
 	}
 
