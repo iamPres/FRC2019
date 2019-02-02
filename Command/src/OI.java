@@ -142,9 +142,6 @@ public class OI {
 		};
 		SmartDashboard.putStringArray("Button Information!", buttonInfo);
 		swapCompressor.whenPressed(new toggleCompressor());
-		raiseElevator.whenPressed(new SetElevator(true));
-		lowerElevator.whenPressed(new SetElevator(false));
-		toggleGrabber.whenPressed(new toggleGrabber());
 	}
 	
 }

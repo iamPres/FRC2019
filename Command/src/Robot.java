@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
-import org.usfirst.frc.team1512.robot.commands.DriveWithJoysticks;
-import org.usfirst.frc.team1512.robot.commands.LiftGrabber;
-import org.usfirst.frc.team1512.robot.commands.autonomous;
-import org.usfirst.frc.team1512.robot.subsystems.*;
+import commands.DriveWithJoysticks;
+import commands.LiftGrabber;
+import commands.autonomous;
+import subsystems.*;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -37,9 +37,6 @@ public class Robot extends TimedRobot {
 	public static Grabber grabber;
 	public static OI m_oi;
 
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
-
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -55,6 +52,9 @@ public class Robot extends TimedRobot {
 		elevator = new Elevator();
 		grabber = new Grabber();
 		m_oi = new OI();
+
+		RobotMap.compressor.setClosedLoopControl(true);
+		RobotMap.Gyro1.calibrate();
 	}
 
 	/**

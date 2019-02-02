@@ -1,6 +1,6 @@
-package org.usfirst.frc.team1512.robot.subsystems;
-import org.usfirst.frc.team1512.robot.RobotMap;
-import org.usfirst.frc.team1512.robot.commands.DriveWithJoysticks;
+package subsystems;
+import RobotMap;
+import commands.DriveWithJoysticks;
 
 
 import edu.wpi.first.wpilibj.command.Subsystem;

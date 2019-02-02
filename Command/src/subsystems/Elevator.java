@@ -1,7 +1,5 @@
-package org.usfirst.frc.team1512.robot.subsystems;
-
-import org.usfirst.frc.team1512.robot.RobotMap;
-
+package subsystems;
+import RobotMap;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.command.Subsystem;
 

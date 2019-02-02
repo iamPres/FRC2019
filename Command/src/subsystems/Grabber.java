@@ -1,8 +1,6 @@
-package org.usfirst.frc.team1512.robot.subsystems;
-
-import org.usfirst.frc.team1512.robot.RobotMap;
-import org.usfirst.frc.team1512.robot.commands.LiftGrabber;
-
+package subsystems;
+import RobotMap;
+import commands.LiftGrabber;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

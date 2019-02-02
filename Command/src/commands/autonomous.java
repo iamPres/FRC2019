@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.TimedRobot;
 
-import org.usfirst.frc.team1512.robot.Robot;
-import org.usfirst.frc.team1512.robot.RobotMap;
-import org.usfirst.frc.team1512.robot.commands.SpinRobotAuto;
+import Robot;
+import RobotMap;
+import commands.SpinRobotAuto;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
