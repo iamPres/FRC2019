@@ -20,14 +20,17 @@ public class ButtonSelect extends CommandGroup {
     XboxController xbox = RobotMap.xboxController;
 
     protected void execute() {
+
     if (xbox.getAButtonPressed()) {
         addSequential(new autonomous(0));
     }
     if (xbox.getXButtonPressed()) {
+
         addSequential(new autonomous(1));
         new autonomous(1);
     }
     if (xbox.getBButtonPressed()) {
+        
         addSequential(new autonomous(2));
 
         new autonomous(2);
