@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-
+import frc.robot.commands.ButtonSelect;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.LiftGrabber;
 import frc.robot.commands.autonomous;
@@ -33,10 +33,12 @@ import edu.wpi.first.networktables.NetworkTableValue;
  */
 public class Robot extends TimedRobot {
 	XboxController xbox = RobotMap.xboxController;
+
 	public static DriveTrain driveTrain;
 	public static Elevator elevator;
 	public static Grabber grabber;
 	public static OI m_oi;
+	
 	NetworkTableValue turn;
 	NetworkTableInstance inst = NetworkTableInstance.getDefault();
 	NetworkTable table = inst.getTable("datatable");
@@ -145,16 +147,16 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
 		if (xbox.getAButtonPressed()) {
-			new autonomous(0);
-		}
-		if (xbox.getXButtonPressed()) {
-			new autonomous(1);
-		}
-		if (xbox.getBButtonPressed()) {
-			new autonomous(2);
-		}
+            Scheduler.getInstance().add(new autonomous(0));
+        }
+        if (xbox.getXButtonPressed()) {
+            Scheduler.getInstance().add(new autonomous(1));
+        }
+        if (xbox.getBButtonPressed()) {
+            Scheduler.getInstance().add(new autonomous(2));
+        }
+		Scheduler.getInstance().run();
 	}
 
 	/**
